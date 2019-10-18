@@ -1,0 +1,21 @@
+<workflow-app xmlns='uri:oozie:workflow:0.5' name='PySpark'>
+<start to='spark-node'/>
+<action name='spark-node' cred='hcat_auth'>
+<spark xmlns="uri:oozie:spark-action:0.1">
+<job-tracker>${jobTracker}</job-tracker>
+<name-node>${nameNode}</name-node>
+<master>${master}</master>
+<name>MyApp</name>
+<class>org.apache.spark.examples.sql.HiveFromSpark</class>
+<jar>${nameNode}/user/ambari-qa/oozie_session2/spark/spark-examples-1.6.3.2.6.5.0-292-hadoop2.7.3.2.6.5.0-292.jar</jar>
+</spark>
+<ok to="end" />
+<error to="fail" />
+</action>
+<kill name="fail">
+<message>Workflow failed, error
+message[${wf:errorMessage(wf:lastErrorNode())}]
+</message>
+</kill>
+<end name='end' />
+</workflow-app>

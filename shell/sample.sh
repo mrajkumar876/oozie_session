@@ -1,0 +1,2 @@
+cd testdirectory
+touch a

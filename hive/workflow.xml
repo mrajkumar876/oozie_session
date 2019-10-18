@@ -1,0 +1,18 @@
+<workflow-app xmlns='uri:oozie:workflow:0.5' name='PySpark'>
+<start to='spark-node'/>
+<action name='hive-node'>
+<hive xmlns="uri:oozie:hive-action:0.2">
+<job-tracker>${jobTracker}</job-tracker>
+<name-node>${nameNode}</name-node>
+<script>myscript.q</script>
+</hive>
+<ok to="end" />
+<error to="fail" />
+</action>
+<kill name="fail">
+<message>Workflow failed, error
+message[${wf:errorMessage(wf:lastErrorNode())}]
+</message>
+</kill>
+<end name='end' />
+</workflow-app>
